@@ -91,7 +91,9 @@ Rails.application.config.after_initialize do
                ( Redmine::Plugin.installed?(:redmineup_tags) ? 
                  content_tag('td', 
                    child.tags.map { |tag| 
-                     content_tag('span', tag.name, class: 'tag-label-color', style: "background-color: ##{tag.color}")
+                     color = tag.respond_to?(:attributes) ? (tag.attributes['color'] || tag.attributes[:color]).to_s : ''
+                     color_style = color.present? && color.length == 6 ? "background-color: ##{color}" : ''
+                     content_tag('span', tag.name, class: 'tag-label-color', style: color_style)
                    }.join(' ').html_safe, 
                    :class => 'tag'
                  ) : '' ) +
@@ -155,7 +157,9 @@ Rails.application.config.after_initialize do
                ( Redmine::Plugin.installed?(:redmineup_tags) ? 
                  content_tag('td', 
                    other_issue.tags.map { |tag| 
-                     content_tag('span', tag.name, class: 'tag-label-color', style: "background-color: ##{tag.color}")
+                     color = tag.respond_to?(:attributes) ? (tag.attributes['color'] || tag.attributes[:color]).to_s : ''
+                     color_style = color.present? && color.length == 6 ? "background-color: ##{color}" : ''
+                     content_tag('span', tag.name, class: 'tag-label-color', style: color_style)
                    }.join(' ').html_safe, 
                    :class => 'tag'
                  ) : '' ) +
